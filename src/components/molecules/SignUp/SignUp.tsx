@@ -17,6 +17,7 @@ import FontAwesome6 from '@react-native-vector-icons/fontawesome6';
 import {regex} from 'utils';
 import {BackAction} from 'components/atoms';
 import Toast from 'react-native-simple-toast';
+import MaterialDesignIcons from '@react-native-vector-icons/material-design-icons';
 
 interface InitialFormValue {
   email: string;
@@ -127,7 +128,8 @@ const SignUp: React.FC = ({navigation, backAction, signInAction}) => {
                       value={formik?.values?.email}
                       inputMode="text"
                       keyboardType="email-address"
-                      placeholder="Enter syllab email address"
+                      placeholder="Enter email address"
+                      icon={<MaterialDesignIcons name="email" size={15} />}
                     />
                   )}
                   {showedit && (
@@ -152,6 +154,12 @@ const SignUp: React.FC = ({navigation, backAction, signInAction}) => {
                       inputMode="text"
                       keyboardType="text"
                       placeholder="Confirm password"
+                      icon={
+                        <MaterialDesignIcons
+                          name="form-textbox-password"
+                          size={15}
+                        />
+                      }
                     />
                   )}
                 </View>
