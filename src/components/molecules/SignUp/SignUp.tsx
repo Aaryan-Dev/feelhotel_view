@@ -60,7 +60,7 @@ const SignUp: React.FC = ({navigation, backAction, signInAction}) => {
       if (password === confirm_password) {
         navigation.navigate('Home');
       } else {
-        Toast.showWithGravity('Passwords must match!', Toast.LONG, Toast.TOP, {
+        Toast.showWithGravity('Passwords must match', Toast.LONG, Toast.TOP, {
           backgroundColor: '#A70D2A',
         });
       }

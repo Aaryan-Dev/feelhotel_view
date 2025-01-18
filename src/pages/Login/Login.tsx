@@ -38,15 +38,22 @@ const Login: React.FC = ({navigation}) => {
   return (
     <SafeAreaView>
       <View style={styles.loginView}>
-        <View>
-          <Image
-            style={styles.syllabLogo}
-            source={require('../../assets/android-chrome-192x192.png')}
-          />
-        </View>
-        <View style={{padding: 10, postion: 'relative', bottom: 5}}>
+        <View style={styles.header}>
           <Text style={styles.appName}>Feel Hotel</Text>
-          <Text>Book your hotel for good</Text>
+        </View>
+        <View style={styles.logoView}>
+          <View>
+            <Image
+              style={styles.syllabLogo}
+              source={require('../../assets/android-chrome-192x192.png')}
+            />
+          </View>
+          <Text
+            style={{
+              marginBottom: 100,
+            }}>
+            Book your hotel for good
+          </Text>
         </View>
 
         <View style={styles.fixedScreen}>
@@ -93,6 +100,12 @@ const Login: React.FC = ({navigation}) => {
 };
 
 const styles = StyleSheet.create({
+  header: {
+    width: 350,
+    display: 'flex',
+    flexDirection: 'row',
+    justifyContent: 'flex-start',
+  },
   loginView: {
     width: '100%',
     backgroundColor: '#fff0',
@@ -102,6 +115,12 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     alignContent: 'center',
     alignItems: 'center',
+  },
+  logoView: {
+    textAlign: 'flex',
+    justifyContent: 'flex-end',
+    alignContent: 'flex-end',
+    alignItems: 'flex-end',
   },
   fixedScreen: {
     position: 'absolute',
