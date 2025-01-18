@@ -36,14 +36,14 @@ const SignIn: React.FC = ({navigation, backAction, signUpAction}) => {
   return (
     <View style={styles.backAction}>
       <View style={{marginBottom: 5}}>
-        <Text>Sign In</Text>
+        <Text style={{fontWeight: 'bold'}}>Sign In</Text>
       </View>
       <Formik
         initialValues={initialValue}
         validationSchema={validationSchema}
         onSubmit={values => handleLogin(values)}
-        // validateOnChange={false}
-        // validateOnBlur={false}
+        validateOnChange={false}
+        validateOnBlur={false}
       >
         {formik => {
           return (
@@ -59,7 +59,7 @@ const SignIn: React.FC = ({navigation, backAction, signUpAction}) => {
                   placeholder="Enter your email address"
                   icon={<MaterialDesignIcons name="email" size={15} />}
                 />
-                <View style={{marginTop: 0}}>
+                <View>
                   <CustomInput
                     error={formik?.errors?.password}
                     onChangeText={formik?.handleChange('password')}

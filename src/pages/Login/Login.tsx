@@ -23,7 +23,7 @@ const Login: React.FC = ({navigation}) => {
   const [userInfo, setUserInfo] = useState(null);
   const [signInToggle, setSignInToggle] = useToggle(false);
   const [signUpToggle, setSignUpToggle] = useToggle(false);
-  // const [signUpToggle, setSignUpToggle] = useToggle(false);
+
   GoogleSignin.configure({
     webClientId:
       '425893378965-il92kcq6pdumpttaq4ab211d6fim29v7.apps.googleusercontent.com',
@@ -64,6 +64,11 @@ const Login: React.FC = ({navigation}) => {
   const handleSignup = () => {
     setSignUpToggle();
   };
+  
+  const handleBackSignInAction = () => {
+    setSignUpToggle();
+    !signInToggle && setSignInToggle();
+  }
 
   return (
     <SafeAreaView>
@@ -107,7 +112,11 @@ const Login: React.FC = ({navigation}) => {
           </View>
         )}
         {signUpToggle && (
-          <SignUp navigation={navigation} backAction={setSignUpToggle} />
+          <SignUp
+            navigation={navigation}
+            backAction={setSignUpToggle}
+            signInAction={handleBackSignInAction}
+          />
         )}
         {/* <View style={styles.loginSignupButton}>
           <Button title="Sign in with Google" onPress={handleGoogleLogin} />
