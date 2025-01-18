@@ -11,6 +11,7 @@ import {
   TextInput,
   TouchableOpacity,
 } from 'react-native';
+import {useMutation, gql} from '@apollo/client';
 import {Formik} from 'formik';
 import * as Yup from 'yup';
 import FontAwesome6 from '@react-native-vector-icons/fontawesome6';
@@ -25,8 +26,26 @@ interface InitialFormValue {
   confirm_password: string;
 }
 
+const SIGNUP_MUTATION = gql`
+  mutation SignUp($email: String!, $password: String!) {
+    signUp(email: $email, password: $password) {
+      token
+    }
+  }
+`;
+
 const SignUp: React.FC = ({navigation, backAction, signInAction}) => {
   const [showedit, setShowEdit] = useState(false);
+  const [username, setUsername] = useState('');
+  const [signUp, {data, loading, error}] = useMutation(SIGNUP_MUTATION);
+
+  const handleSignUp = async (email, password) => {
+    try {
+      const res = await signUp({variables: {email, password}});
+    } catch (error) {
+      console.log('error', error);
+    }
+  };
 
   const initialValue: InitialFormValue = {
     email: '',
@@ -53,13 +72,13 @@ const SignUp: React.FC = ({navigation, backAction, signInAction}) => {
     confirm_password: Yup.string(),
   });
 
-  const handleLogin = async values => {
+  const handleSignup = async values => {
     try {
       await validationSchema.validate(values);
       const {password, confirm_password} = values;
-      // console.log('values', values);
       if (password === confirm_password) {
-        navigation.navigate('Home');
+        // navigation.navigate('Home');
+        handleSignUp(values?.email, values?.password);
       } else {
         Toast.showWithGravity('Passwords must match', Toast.LONG, Toast.TOP, {
           backgroundColor: '#A70D2A',
@@ -76,7 +95,6 @@ const SignUp: React.FC = ({navigation, backAction, signInAction}) => {
   };
 
   const handleValidEmail = async formik => {
-    console.log('989898');
     try {
       await emailValidationSchema.validate({email: formik?.values?.email});
       setShowEdit(true);
@@ -95,7 +113,7 @@ const SignUp: React.FC = ({navigation, backAction, signInAction}) => {
         <Formik
           initialValues={initialValue}
           validationSchema={validationSchema}
-          onSubmit={values => handleLogin(values)}
+          onSubmit={values => handleSignup(values)}
           // validateOnChange={false}
           // validateOnBlur={false}
         >

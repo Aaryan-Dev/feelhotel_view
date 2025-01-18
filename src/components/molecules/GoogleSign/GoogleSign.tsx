@@ -48,8 +48,6 @@ export default function GoogleSign() {
     }
   };
 
-  console.log('userInfo', userInfo);
-
   return (
     <Pressable style={styles.googleButoon} onPress={handleGoogleLogin}>
       <Text> Continue with Google </Text>

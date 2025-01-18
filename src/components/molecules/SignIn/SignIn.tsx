@@ -5,12 +5,21 @@ import {BackAction, CustomInput, CustomButton} from 'components/atoms';
 import {Formik} from 'formik';
 import * as Yup from 'yup';
 import {regex} from 'utils';
+import {useMutation, gql} from '@apollo/client';
 import MaterialDesignIcons from '@react-native-vector-icons/material-design-icons';
 
 interface InitialFormValue {
   email: string;
   password: string;
 }
+
+const SIGN_IN_MUTATION = gql`
+  mutation SignIn($email: String!, $password: String!) {
+    signIn(email: $email, password: $password) {
+      token
+    }
+  }
+`;
 
 const SignIn: React.FC = ({navigation, backAction, signUpAction}) => {
   const initialValue: InitialFormValue = {
@@ -24,13 +33,20 @@ const SignIn: React.FC = ({navigation, backAction, signUpAction}) => {
       .matches(regex.basicEmailRegex, 'Email address must be valid'),
     password: Yup.string().required('Password is required'),
   });
+  const [signIn, {data, loading, error}] = useMutation(SIGN_IN_MUTATION);
 
   const handleBackNavigation = () => {
     backAction();
   };
 
-  const handleLogin = values => {
-    console.log('values', values);
+  const handleLogin = async values => {
+    try {
+      const res = await signIn({
+        variables: {email: values?.email, password: values?.password},
+      });
+    } catch (error) {
+      console.log('error', error);
+    }
   };
 
   return (
@@ -43,8 +59,7 @@ const SignIn: React.FC = ({navigation, backAction, signUpAction}) => {
         validationSchema={validationSchema}
         onSubmit={values => handleLogin(values)}
         validateOnChange={false}
-        validateOnBlur={false}
-      >
+        validateOnBlur={false}>
         {formik => {
           return (
             <View style={styles.emailInputBox}>
