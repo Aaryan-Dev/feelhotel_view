@@ -51,7 +51,10 @@ const Home = () => {
         keyExtractor={item => item.hotel_id.toString()}
         renderItem={({item}) => (
           <View style={styles.card}>
-            <Image source={{uri: item.photo1}} style={styles.image} />
+            <Image
+              source={require('../../assets/hotel_icon.png')}
+              style={styles.image}
+            />
             <Text style={styles.title}>{item.hotel_name}</Text>
             <Text style={styles.subtitle}>
               {item.city}, {item.country} - {item.star_rating}⭐
@@ -76,6 +79,7 @@ const App = () => (
 
 const styles = StyleSheet.create({
   card: {
+    justifyContent: 'flex-start',
     marginBottom: 20,
     padding: 10,
     backgroundColor: '#fff',
@@ -86,8 +90,8 @@ const styles = StyleSheet.create({
     elevation: 5,
   },
   image: {
-    width: '100%',
     height: 200,
+    resizeMode: 'contain',
     borderRadius: 10,
   },
   title: {
