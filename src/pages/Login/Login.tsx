@@ -74,32 +74,41 @@ const Login: React.FC = ({navigation}) => {
             source={require('../../assets/android-chrome-192x192.png')}
           />
         </View>
-        <View>
+        <View style={{padding: 10}}>
           <Text style={styles.appName}>Feel Hotel</Text>
+          <Text>Book your hotel for good</Text>
         </View>
-        {!signUpToggle && (
+        {!signUpToggle && !signInToggle && (
           <View style={styles.loginSignupButton}>
             <CustomButton
               buttonColor={'white'}
               onClick={handleSignin}
               icon={<FontAwesome6 name="arrow-right" iconStyle="solid" />}
-              login={<Text style={styles.SignText}>Sign in</Text>}
+              text={<Text style={styles.SignText}>Sign In</Text>}
             />
           </View>
         )}
-        {signInToggle && <SignIn />}
+        {signInToggle && !signUpToggle && (
+          <SignIn
+            navigation={navigation}
+            backAction={setSignInToggle}
+            signUpAction={setSignUpToggle}
+          />
+        )}
 
-        {!signInToggle && (
+        {!signInToggle && !signUpToggle && (
           <View style={styles.loginSignupButton}>
             <CustomButton
               buttonColor={'white'}
               onClick={handleSignup}
               icon={<FontAwesome6 name="arrow-right" iconStyle="solid" />}
-              login={<Text style={styles.SignText}>Sign up</Text>}
+              text={<Text style={styles.SignText}>Sign up</Text>}
             />
           </View>
         )}
-        {signUpToggle && <SignUp />}
+        {signUpToggle && (
+          <SignUp navigation={navigation} backAction={setSignUpToggle} />
+        )}
         {/* <View style={styles.loginSignupButton}>
           <Button title="Sign in with Google" onPress={handleGoogleLogin} />
         </View> */}
@@ -130,10 +139,9 @@ const styles = StyleSheet.create({
     borderWidth: 2,
   },
   appName: {
-    padding: 10,
+    textAlign: 'center',
     fontWeight: 'bold',
     fontSize: 20,
-    paddingBottom: 20,
   },
   emailInputBox: {
     width: '100%',

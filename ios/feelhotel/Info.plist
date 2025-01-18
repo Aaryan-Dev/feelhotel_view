@@ -49,12 +49,13 @@
 		<true/>
 	</dict>
 	<key>NSLocationWhenInUseUsageDescription</key>
-	<string></string>
+	<string/>
 	<key>UIAppFonts</key>
 	<array>
 		<string>FontAwesome6_Brands.ttf</string>
 		<string>FontAwesome6_Regular.ttf</string>
 		<string>FontAwesome6_Solid.ttf</string>
+		<string>MaterialDesignIcons.ttf</string>
 	</array>
 	<key>UIBackgroundModes</key>
 	<array>

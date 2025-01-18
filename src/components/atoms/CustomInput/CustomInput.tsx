@@ -28,9 +28,11 @@ const CustomInput: React.FC<CustomInputProps> = props => {
 
   return (
     <>
-      <View>
-        <Text style={styles.ErrorInput}>{error}</Text>
-      </View>
+      {error && (
+        <View>
+          <Text style={styles.ErrorInput}>{error}</Text>
+        </View>
+      )}
       <View style={styles.TextInput}>
         <TextInput
           style={styles.input}
@@ -56,16 +58,19 @@ const styles = StyleSheet.create({
   TextInput: {
     display: 'flex',
     flexDirection: 'row',
+    marginTop: 5,
   },
   input: {
     borderWidth: 1,
     width: '100%',
     padding: 5,
+    backgroundColor: 'white',
+    borderColor: '#CACACA',
   },
   IconInput: {
     position: 'relative',
     top: 8,
-    right: 15,
+    right: 20,
   },
 });
 

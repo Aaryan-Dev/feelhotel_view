@@ -1670,6 +1670,13 @@
   dependencies:
     "@react-native-vector-icons/common" "^11.0.0"
 
+"@react-native-vector-icons/material-design-icons@^7.4.47":
+  version "7.4.47"
+  resolved "https://registry.yarnpkg.com/@react-native-vector-icons/material-design-icons/-/material-design-icons-7.4.47.tgz#9b73f9ae96cba64cc571aa147463759d60d09432"
+  integrity sha512-phzTUZE01WsHpeTeZlNRFzba59XnShcDRszE0k2o1k+JyMNT12DyzozUmZ2SbBOJdLeW92Osdx7mvXWuAesRgw==
+  dependencies:
+    "@react-native-vector-icons/common" "^11.0.0"
+
 "@react-native/assets-registry@0.76.5":
   version "0.76.5"
   resolved "https://registry.yarnpkg.com/@react-native/assets-registry/-/assets-registry-0.76.5.tgz#3343338813aa6354df9fec52af50d0b5f7f3d013"

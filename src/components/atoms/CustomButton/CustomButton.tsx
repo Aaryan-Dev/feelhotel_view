@@ -15,11 +15,11 @@ type CustomButtonProps = {
 };
 
 const CustomButton: React.FC<CustomButtonProps> = props => {
-  const {onClick, buttonColor, icon, login} = props;
+  const {onClick, buttonColor, icon, text} = props;
 
   return (
     <TouchableOpacity style={styles.CustomButton} onPress={onClick}>
-      {login}
+      {text}
       {icon}
     </TouchableOpacity>
   );
