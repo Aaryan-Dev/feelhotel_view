@@ -27,7 +27,7 @@
 			<string>Editor</string>
 			<key>CFBundleURLSchemes</key>
 			<array>
-				<string>425893378965-mcod8d1nmp40itj0t99p7rcc1e4p5nl7.apps.googleusercontent.com</string>
+				<string>com.googleusercontent.apps.425893378965-mcod8d1nmp40itj0t99p7rcc1e4p5nl7</string>
 			</array>
 		</dict>
 		<dict/>
@@ -49,7 +49,7 @@
 		<true/>
 	</dict>
 	<key>NSLocationWhenInUseUsageDescription</key>
-	<string/>
+	<string></string>
 	<key>UIAppFonts</key>
 	<array>
 		<string>FontAwesome6_Brands.ttf</string>

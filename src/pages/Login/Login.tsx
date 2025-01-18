@@ -10,9 +10,8 @@ import {
   Alert,
 } from 'react-native';
 import FontAwesome6 from '@react-native-vector-icons/fontawesome6';
-import {GoogleSignin} from '@react-native-google-signin/google-signin';
 import {useToggle} from '../../Hooks';
-import {SignIn, SignUp} from 'components/molecules';
+import {SignIn, SignUp, GoogleSign} from 'components/molecules';
 
 interface InitialFormValue {
   email: string;
@@ -24,51 +23,17 @@ const Login: React.FC = ({navigation}) => {
   const [signInToggle, setSignInToggle] = useToggle(false);
   const [signUpToggle, setSignUpToggle] = useToggle(false);
 
-  GoogleSignin.configure({
-    webClientId:
-      '425893378965-il92kcq6pdumpttaq4ab211d6fim29v7.apps.googleusercontent.com',
-    // androidClientId: GOOGLE_ANDROID_CLIENT_ID,
-    iosClientId:
-      '425893378965-mcod8d1nmp40itj0t99p7rcc1e4p5nl7.apps.googleusercontent.com',
-    scopes: ['profile', 'email'],
-  });
-
-  const handleGoogleLogin = async () => {
-    try {
-      await GoogleSignin.hasPlayServices();
-      const userInfo = await GoogleSignin.signIn();
-      console.log('userInfo', userInfo);
-      setUserInfo(userInfo);
-      Alert.alert('Logged in!', `Hello, ${userInfo.user.name}`);
-    } catch (error) {
-      console.log('error', error);
-      if (error.code === statusCodes.SIGN_IN_CANCELLED) {
-        // user cancelled the login flow
-        Alert.alert('Login cancelled');
-      } else if (error.code === statusCodes.IN_PROGRESS) {
-        // operation (e.g., sign-in) is in progress already
-        Alert.alert('Login in progress');
-      } else if (error.code === statusCodes.PLAY_SERVICES_NOT_AVAILABLE) {
-        // Play services not available or outdated
-        Alert.alert('Play Services not available');
-      } else {
-        // some other error
-        Alert.alert('An error occurred', error.message);
-      }
-    }
-  };
-
   const handleSignin = () => {
     setSignInToggle();
   };
   const handleSignup = () => {
     setSignUpToggle();
   };
-  
+
   const handleBackSignInAction = () => {
     setSignUpToggle();
     !signInToggle && setSignInToggle();
-  }
+  };
 
   return (
     <SafeAreaView>
@@ -89,7 +54,7 @@ const Login: React.FC = ({navigation}) => {
               buttonColor={'white'}
               onClick={handleSignin}
               icon={<FontAwesome6 name="arrow-right" iconStyle="solid" />}
-              text={<Text style={styles.SignText}>Sign In</Text>}
+              text={<Text>Sign In</Text>}
             />
           </View>
         )}
@@ -107,7 +72,7 @@ const Login: React.FC = ({navigation}) => {
               buttonColor={'white'}
               onClick={handleSignup}
               icon={<FontAwesome6 name="arrow-right" iconStyle="solid" />}
-              text={<Text style={styles.SignText}>Sign up</Text>}
+              text={<Text>Sign up</Text>}
             />
           </View>
         )}
@@ -118,9 +83,7 @@ const Login: React.FC = ({navigation}) => {
             signInAction={handleBackSignInAction}
           />
         )}
-        {/* <View style={styles.loginSignupButton}>
-          <Button title="Sign in with Google" onPress={handleGoogleLogin} />
-        </View> */}
+        <GoogleSign />
       </View>
     </SafeAreaView>
   );
