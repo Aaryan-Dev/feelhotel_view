@@ -63,11 +63,11 @@ const styles = StyleSheet.create({
     display: 'flex',
     backgroundColor: 'white',
     borderColor: '#B9B9B9',
-    width: 300,
+    width: 350,
     flexDirection: 'row',
     justifyContent: 'space-between',
     borderWidth: 1,
     padding: 5,
-    margin: 2,
+    marginTop: 2,
   },
 });

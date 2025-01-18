@@ -195,7 +195,7 @@ const SignUp: React.FC = ({navigation, backAction, signInAction}) => {
 
 const styles = StyleSheet.create({
   loginView: {
-    width: 300,
+    width: 350,
     margin: 'auto',
     flexDirection: 'column',
     justifyContent: 'center',
@@ -203,8 +203,8 @@ const styles = StyleSheet.create({
     alignItems: 'center',
   },
   syllabLogo: {
-    width: 300,
-    height: 300,
+    width: 350,
+    height: 350,
     borderRadius: 3,
   },
   loginText: {

@@ -44,46 +44,49 @@ const Login: React.FC = ({navigation}) => {
             source={require('../../assets/android-chrome-192x192.png')}
           />
         </View>
-        <View style={{padding: 10}}>
+        <View style={{padding: 10, postion: 'relative', bottom: 5}}>
           <Text style={styles.appName}>Feel Hotel</Text>
           <Text>Book your hotel for good</Text>
         </View>
-        {!signUpToggle && !signInToggle && (
-          <View style={styles.loginSignupButton}>
-            <CustomButton
-              buttonColor={'white'}
-              onClick={handleSignin}
-              icon={<FontAwesome6 name="arrow-right" iconStyle="solid" />}
-              text={<Text>Sign In</Text>}
-            />
-          </View>
-        )}
-        {signInToggle && !signUpToggle && (
-          <SignIn
-            navigation={navigation}
-            backAction={setSignInToggle}
-            signUpAction={setSignUpToggle}
-          />
-        )}
 
-        {!signInToggle && !signUpToggle && (
-          <View style={styles.loginSignupButton}>
-            <CustomButton
-              buttonColor={'white'}
-              onClick={handleSignup}
-              icon={<FontAwesome6 name="arrow-right" iconStyle="solid" />}
-              text={<Text>Sign up</Text>}
+        <View style={styles.fixedScreen}>
+          {!signUpToggle && !signInToggle && (
+            <View style={styles.loginSignupButton}>
+              <CustomButton
+                buttonColor={'white'}
+                onClick={handleSignin}
+                icon={<FontAwesome6 name="arrow-right" iconStyle="solid" />}
+                text={<Text>Sign In</Text>}
+              />
+            </View>
+          )}
+          {signInToggle && !signUpToggle && (
+            <SignIn
+              navigation={navigation}
+              backAction={setSignInToggle}
+              signUpAction={setSignUpToggle}
             />
-          </View>
-        )}
-        {signUpToggle && (
-          <SignUp
-            navigation={navigation}
-            backAction={setSignUpToggle}
-            signInAction={handleBackSignInAction}
-          />
-        )}
-        <GoogleSign />
+          )}
+
+          {!signInToggle && !signUpToggle && (
+            <View style={styles.loginSignupButton}>
+              <CustomButton
+                buttonColor={'white'}
+                onClick={handleSignup}
+                icon={<FontAwesome6 name="arrow-right" iconStyle="solid" />}
+                text={<Text>Sign up</Text>}
+              />
+            </View>
+          )}
+          {signUpToggle && (
+            <SignUp
+              navigation={navigation}
+              backAction={setSignUpToggle}
+              signInAction={handleBackSignInAction}
+            />
+          )}
+          <GoogleSign />
+        </View>
       </View>
     </SafeAreaView>
   );
@@ -100,12 +103,16 @@ const styles = StyleSheet.create({
     alignContent: 'center',
     alignItems: 'center',
   },
+  fixedScreen: {
+    position: 'absolute',
+    bottom: 25,
+  },
   showEditbox: {
     height: 15,
   },
   syllabLogo: {
-    width: 300,
-    height: 300,
+    width: 350,
+    height: 350,
     borderRadius: 3,
     borderColor: 'white',
     borderWidth: 2,
@@ -135,7 +142,7 @@ const styles = StyleSheet.create({
     marginTop: 1,
     borderColor: '#EFEFEF',
     borderWidth: 2,
-    width: 300,
+    width: 350,
     backgroundColor: 'white',
   },
   CustomButtonLogin: {

@@ -32,7 +32,7 @@ const BackAction: React.FC = ({
 
 const styles = StyleSheet.create({
   backActionBar: {
-    width: 300,
+    width: 350,
     display: 'flex',
     flexDirection: 'row',
     justifyContent: 'space-between',

@@ -99,7 +99,7 @@ const SignIn: React.FC = ({navigation, backAction, signUpAction}) => {
 
 const styles = StyleSheet.create({
   backAction: {
-    width: 300,
+    width: 350,
     paddingBottom: 1,
   },
   signUp: {
@@ -109,7 +109,7 @@ const styles = StyleSheet.create({
     borderWidth: 1,
     marginLeft: -5,
     backgroundColor: 'white',
-    width: 300,
+    width: 350,
     padding: 5,
     borderColor: '#909090',
     textAlign: 'center',
