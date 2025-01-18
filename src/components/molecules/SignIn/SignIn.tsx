@@ -6,6 +6,7 @@ import {Formik} from 'formik';
 import * as Yup from 'yup';
 import {regex} from 'utils';
 import {useMutation, gql} from '@apollo/client';
+import Toast from 'react-native-simple-toast';
 import MaterialDesignIcons from '@react-native-vector-icons/material-design-icons';
 
 interface InitialFormValue {
@@ -31,7 +32,10 @@ const SignIn: React.FC = ({navigation, backAction, signUpAction}) => {
     email: Yup.string()
       .required('Email is required')
       .matches(regex.basicEmailRegex, 'Email address must be valid'),
-    password: Yup.string().required('Password is required'),
+    // password: Yup.string().required('Password is required'),
+    password: Yup.string()
+      .required('Please enter password')
+      .matches(regex.password, 'Password is invalid'),
   });
   const [signIn, {data, loading, error}] = useMutation(SIGN_IN_MUTATION);
 
@@ -44,8 +48,26 @@ const SignIn: React.FC = ({navigation, backAction, signUpAction}) => {
       const res = await signIn({
         variables: {email: values?.email, password: values?.password},
       });
+      if (res?.data) {
+        navigation.navigate('Home');
+      }
     } catch (error) {
       console.log('error', error);
+      if (error.graphQLErrors) {
+        Toast.showWithGravity(
+          error.graphQLErrors[0]?.message,
+          Toast.LONG,
+          Toast.TOP,
+          {
+            backgroundColor: '#A70D2A',
+          },
+        );
+      }
+      if (error.networkError) {
+        Toast.showWithGravity(error.networkError, Toast.LONG, Toast.TOP, {
+          backgroundColor: '#A70D2A',
+        });
+      }
     }
   };
 

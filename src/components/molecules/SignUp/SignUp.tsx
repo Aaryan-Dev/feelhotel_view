@@ -42,8 +42,26 @@ const SignUp: React.FC = ({navigation, backAction, signInAction}) => {
   const handleSignUp = async (email, password) => {
     try {
       const res = await signUp({variables: {email, password}});
+      if (res?.data) {
+        navigation.naviagte('Home');
+      }
     } catch (error) {
       console.log('error', error);
+      if (error.graphQLErrors) {
+        Toast.showWithGravity(
+          error.graphQLErrors[0]?.message,
+          Toast.LONG,
+          Toast.TOP,
+          {
+            backgroundColor: '#A70D2A',
+          },
+        );
+      }
+      if (error.networkError) {
+        Toast.showWithGravity(error.networkError, Toast.LONG, Toast.TOP, {
+          backgroundColor: '#A70D2A',
+        });
+      }
     }
   };
 
@@ -66,7 +84,7 @@ const SignUp: React.FC = ({navigation, backAction, signInAction}) => {
     password: Yup.string()
       .required('Please enter password')
       .matches(
-        /^.*(?=.{10,})((?=.*[!@#$%^&*()\-_=+{};:,<.>]){1})(?=.*\d)((?=.*[a-z]){1})((?=.*[A-Z]){1}).*$/,
+        regex.password,
         'Password must contain at least 10 characters, one uppercase, one number and one special case character',
       ),
     confirm_password: Yup.string(),
@@ -77,7 +95,7 @@ const SignUp: React.FC = ({navigation, backAction, signInAction}) => {
       await validationSchema.validate(values);
       const {password, confirm_password} = values;
       if (password === confirm_password) {
-        // navigation.navigate('Home');
+        navigation.navigate('Home');
         handleSignUp(values?.email, values?.password);
       } else {
         Toast.showWithGravity('Passwords must match', Toast.LONG, Toast.TOP, {
