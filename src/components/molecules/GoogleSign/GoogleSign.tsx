@@ -2,7 +2,9 @@ import {useState} from 'react';
 import {View, Pressable, Text, StyleSheet} from 'react-native';
 import {GoogleSignin} from '@react-native-google-signin/google-signin';
 import {CustomButton} from 'components/atoms';
+import {useNavigation} from '@react-navigation/native';
 import MaterialDesignIcons from '@react-native-vector-icons/material-design-icons';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 GoogleSignin.configure({
   webClientId:
@@ -23,6 +25,7 @@ const GoogleLogin = async () => {
 export default function GoogleSign() {
   const [error, setError] = useState('');
   const [loading, setLoading] = useState(false);
+  const navigation = useNavigation();
   const [userInfo, setUserInfo] = useState(false);
 
   const handleGoogleLogin = async () => {
@@ -31,6 +34,8 @@ export default function GoogleSign() {
       const response = await GoogleLogin();
       const {idToken, scopes} = response?.data;
       setUserInfo(response?.data);
+      await AsyncStorage.setItem('userEmail', response?.data?.user?.email);
+      navigation.navigate('Home');
       // if (idToken) {
       //   const resp = await authAPI.validateToken({
       //     token: idToken,

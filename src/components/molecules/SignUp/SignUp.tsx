@@ -45,7 +45,7 @@ const SignUp: React.FC = ({navigation, backAction, signInAction}) => {
       const res = await signUp({variables: {email, password}});
       if (res?.data) {
         await AsyncStorage.setItem('userToken', res?.data?.signUp?.token);
-        // navigation.naviagte('Home');
+        navigation.navigate('Home');
       }
     } catch (error) {
       console.log('error', error);
@@ -97,7 +97,6 @@ const SignUp: React.FC = ({navigation, backAction, signInAction}) => {
       await validationSchema.validate(values);
       const {password, confirm_password} = values;
       if (password === confirm_password) {
-        navigation.navigate('Home');
         handleSignUp(values?.email, values?.password);
       } else {
         Toast.showWithGravity('Passwords must match', Toast.LONG, Toast.TOP, {

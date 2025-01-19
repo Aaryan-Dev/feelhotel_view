@@ -6,8 +6,11 @@ import {
   StyleSheet,
   FlatList,
   SafeAreaView,
+  SafeAreaProvider,
   Button,
   TouchableOpacity,
+  Modal,
+  Pressable,
 } from 'react-native';
 import {
   ApolloClient,
@@ -15,6 +18,7 @@ import {
   ApolloProvider,
   useQuery,
   gql,
+  useLazyQuery,
   useMutation,
 } from '@apollo/client';
 import Toast from 'react-native-simple-toast';
@@ -22,6 +26,7 @@ import {jwtDecode} from 'jwt-decode';
 import {useNavigation} from '@react-navigation/native';
 import DatePicker from 'react-native-date-picker';
 import AsyncStorage from '@react-native-async-storage/async-storage';
+import MaterialDesignIcons from '@react-native-vector-icons/material-design-icons';
 
 export const GET_HOTELS = gql`
   query {
@@ -53,8 +58,28 @@ const BOOK_HOTEL = gql`
   }
 `;
 
+const GET_BOOKED_HOTELS = gql`
+  query GetBookedHotels($email: String!) {
+    getBookedHotels(email: $email) {
+      hotel_id
+      chain_name
+      booking_date
+      city
+      country
+      star_rating
+      latitude
+      longitude
+      photo1
+      overview
+      rates_from
+      rates_currency
+    }
+  }
+`;
+
 const Home: React.FC = () => {
   const {loading, error, data} = useQuery(GET_HOTELS);
+  const [modalVisible, setModalVisible] = useState(false);
   const navigation = useNavigation();
   const [
     bookHotel,
@@ -64,6 +89,16 @@ const Home: React.FC = () => {
       error: hotelBookinError,
     },
   ] = useMutation(BOOK_HOTEL);
+
+  const [
+    getBookedHotels,
+    {
+      data: getBookedHistoryData,
+      loading: getBookedHistoryLoading,
+      error: getBookedHistoryError,
+    },
+  ] = useLazyQuery(GET_BOOKED_HOTELS);
+
   const [date, setDate] = useState(new Date());
 
   const getToken = async () => {
@@ -78,12 +113,12 @@ const Home: React.FC = () => {
   };
 
   const handleBook = async hotelId => {
+    const userEmail = await AsyncStorage.getItem('userEmail');
     const userdData = await getToken();
-    console.log('userEmail', userdData);
     bookHotel({
       variables: {
         hotel_id: parseInt(hotelId),
-        email: userdData?.email,
+        email: userEmail || userdData?.email,
         booking_date: date,
       },
     })
@@ -100,11 +135,17 @@ const Home: React.FC = () => {
       });
   };
 
-  const handleBookingHistory = () => {};
+  const handleBookingHistory = async () => {
+    const userEmail = await AsyncStorage.getItem('userEmail');
+    const userdData = await getToken();
+    getBookedHotels({variables: {email: userEmail || userdData?.email}});
+    setModalVisible(true);
+  };
 
   const handleLogout = async () => {
     try {
       await AsyncStorage.removeItem('userToken');
+      await AsyncStorage.removeItem('userEmail');
       console.log('Token removed successfully!');
       navigation.navigate('Login');
     } catch (error) {
@@ -114,10 +155,6 @@ const Home: React.FC = () => {
 
   if (loading) return <Text>Loading...</Text>;
   if (error) return <Text>Error: {error.message}</Text>;
-
-  // useEffect(() => {
-  //   getToken();
-  // }, []);
 
   return (
     <SafeAreaView>
@@ -185,6 +222,56 @@ const Home: React.FC = () => {
           </View>
         )}
       />
+      <Modal
+        animationType="slide"
+        transparent={true}
+        visible={modalVisible}
+        onRequestClose={() => {
+          setModalVisible(!modalVisible);
+        }}>
+        <View style={styles.centeredView}>
+          <View style={styles.modalView}>
+            <Text style={styles.modalText}>Booked Hotels</Text>
+            {!getBookedHistoryData?.getBookedHotels && (
+              <Text style={styles.modalText}>No records found!</Text>
+            )}
+            <FlatList
+              data={getBookedHistoryData?.getBookedHotels}
+              keyExtractor={item =>
+                item.hotel_id.toString() + item.booking_date
+              }
+              renderItem={({item}) => (
+                <View
+                  style={{
+                    display: 'flex',
+                    alignItems: 'center',
+                    justifyContent: 'center',
+                    alignContent: 'center',
+                    marginBottom: 15,
+                  }}>
+                  <Image
+                    source={require('../../assets/hotel_icon.png')}
+                    style={styles.image}
+                  />
+                  <Text style={styles.title}>{item.hotel_name}</Text>
+                  <Text style={styles.subtitle}>
+                    {item.city}, {item.country} - {item.star_rating}⭐
+                  </Text>
+                  <Text style={styles.subtitle}>
+                    Booking Date - {item.booking_date}
+                    <MaterialDesignIcons name="calendar-today" size={15} />
+                  </Text>
+                </View>
+              )}
+            />
+            <Pressable
+              style={[styles.button, styles.buttonClose]}
+              onPress={() => setModalVisible(!modalVisible)}>
+              <Text style={styles.textStyle}>Hide</Text>
+            </Pressable>
+          </View>
+        </View>
+      </Modal>
     </SafeAreaView>
   );
 };
@@ -231,6 +318,44 @@ const styles = StyleSheet.create({
     fontSize: 16,
     fontWeight: 'bold',
     color: '#00aaff',
+  },
+  centeredView: {
+    width: 400,
+    height: 500,
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+  modalView: {
+    margin: 20,
+    width: 400,
+    height: 500,
+    backgroundColor: 'white',
+    padding: 10,
+    shadowOpacity: 0.25,
+    shadowRadius: 4,
+    elevation: 5,
+  },
+  button: {
+    borderRadius: 5,
+    margin: 10,
+    padding: 10,
+    elevation: 2,
+  },
+  buttonOpen: {
+    backgroundColor: 'black',
+  },
+  buttonClose: {
+    backgroundColor: 'black',
+  },
+  textStyle: {
+    color: 'white',
+    fontWeight: 'bold',
+    textAlign: 'center',
+  },
+  modalText: {
+    marginBottom: 15,
+    textAlign: 'center',
   },
 });
 
