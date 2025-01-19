@@ -1,3 +1,5 @@
+**_ Only Configured for IOS simulation _**
+
 ## Project Structure
 
 The project follows a standard React Native structure:
@@ -40,21 +42,13 @@ npm start
 yarn start
 ```
 
+**_ Note: Only Configured for IOS simulation _**
+
 ## Step 2: Start your Application
 
-Let Metro Bundler run in its _own_ terminal. Open a _new_ terminal from the _root_ of your React Native project. Run the following command to start your _Android_ or _iOS_ app:
+Let Metro Bundler run in its _own_ terminal. Open a _new_ terminal from the _root_ of your React Native project. Run the following command to start your _iOS_ app:
 
-### For Android
-
-```bash
-# using npm
-npm run android
-
-# OR using Yarn
-yarn android
-```
-
-### For iOS
+### Only For iOS
 
 cd ios
 pod install
@@ -67,18 +61,16 @@ npm run ios
 yarn ios
 ```
 
-If everything is set up _correctly_, you should see your new app running in your _Android Emulator_ or _iOS Simulator_ shortly provided you have set up your emulator/simulator correctly.
+If everything is set up _correctly_, you should see your new app running in your _iOS Simulator_ shortly provided you have set up your emulator/simulator correctly.
 
-This is one way to run your app — you can also run it directly from within Android Studio and Xcode respectively.
+This is one way to run your app — you can also run it directly from within Xcode respectively.
 
 ## Step 3: Modifying your App
 
 Now that you have successfully run the app, let's modify it.
 
 1. Open `App.tsx` in your text editor of choice and edit some lines.
-2. For **Android**: Press the <kbd>R</kbd> key twice or select **"Reload"** from the **Developer Menu** (<kbd>Ctrl</kbd> + <kbd>M</kbd> (on Window and Linux) or <kbd>Cmd ⌘</kbd> + <kbd>M</kbd> (on macOS)) to see your changes!
-
-   For **iOS**: Hit <kbd>Cmd ⌘</kbd> + <kbd>R</kbd> in your iOS Simulator to reload the app and see your changes!
+2. For **iOS**: Hit <kbd>Cmd ⌘</kbd> + <kbd>R</kbd> in your iOS Simulator to reload the app and see your changes!
 
 ## Congratulations! :tada:
 
@@ -102,3 +94,33 @@ To learn more about React Native, take a look at the following resources:
 - [Learn the Basics](https://reactnative.dev/docs/getting-started) - a **guided tour** of the React Native **basics**.
 - [Blog](https://reactnative.dev/blog) - read the latest official React Native **Blog** posts.
 - [`@facebook/react-native`](https://github.com/facebook/react-native) - the Open Source; GitHub **repository** for React Native.
+
+### Files and Directories
+
+1.  **Core Files**:
+
+    - `src/App.tsx`: Likely the main entry point for the React application.
+    - `src/ApolloProvider.js`: Provides Apollo Client setup for GraphQL integration.
+    - `src/routes.js`: Defines application routes.
+
+2.  **Utilities**:
+
+    - `src/utils/index.js`: Centralizes utility functions.
+    - `src/utils/regex.js`: Contains regular expressions for validations or pattern matching.
+
+3.  **Components**:
+
+    - **Atoms**: Small, reusable components like inputs, buttons, and actions.
+    - **Molecules**: Composite components such as `SignUp`, `SignIn`, and `GoogleSign`.
+
+4.  **Hooks**:
+
+    - Custom hooks (`useToggle`) for state management.
+
+5.  **Assets**:
+
+    - Images (`hotel_icon.png`, `android-chrome-192x192.png`).
+
+6.  **Pages**:
+
+    - `Home`, `Login`: Page-level components.

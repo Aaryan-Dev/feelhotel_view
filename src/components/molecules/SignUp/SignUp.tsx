@@ -60,7 +60,7 @@ const SignUp: React.FC = ({navigation, backAction, signInAction}) => {
         );
       }
       if (error.networkError) {
-        Toast.showWithGravity(error.networkError, Toast.LONG, Toast.TOP, {
+        Toast.showWithGravity(error?.networkError, Toast.LONG, Toast.TOP, {
           backgroundColor: '#A70D2A',
         });
       }
