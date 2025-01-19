@@ -80,6 +80,7 @@ const GET_BOOKED_HOTELS = gql`
 const Home: React.FC = () => {
   const {loading, error, data} = useQuery(GET_HOTELS);
   const [modalVisible, setModalVisible] = useState(false);
+  const [theUserEmail, setTheUserEmail] = useState(false);
   const navigation = useNavigation();
   const [
     bookHotel,
@@ -138,7 +139,10 @@ const Home: React.FC = () => {
   const handleBookingHistory = async () => {
     const userEmail = await AsyncStorage.getItem('userEmail');
     const userdData = await getToken();
-    getBookedHotels({variables: {email: userEmail || userdData?.email}});
+
+    const storedUserEmail = userEmail || userdData?.email;
+    setTheUserEmail(storedUserEmail);
+    getBookedHotels({variables: {email: storedUserEmail}});
     setModalVisible(true);
   };
 
@@ -231,7 +235,9 @@ const Home: React.FC = () => {
         }}>
         <View style={styles.centeredView}>
           <View style={styles.modalView}>
-            <Text style={styles.modalText}>Booked Hotels</Text>
+            <Text style={styles.modalText}>
+              Booked Hotels for "{theUserEmail}"
+            </Text>
             {!getBookedHistoryData?.getBookedHotels && (
               <Text style={styles.modalText}>No records found!</Text>
             )}
