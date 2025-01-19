@@ -1,5 +1,6 @@
 import {useState} from 'react';
 import {CustomInput, CustomButton} from 'components/atoms';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 import {
   View,
   Text,
@@ -43,7 +44,8 @@ const SignUp: React.FC = ({navigation, backAction, signInAction}) => {
     try {
       const res = await signUp({variables: {email, password}});
       if (res?.data) {
-        navigation.naviagte('Home');
+        await AsyncStorage.setItem('userToken', res?.data?.signUp?.token);
+        // navigation.naviagte('Home');
       }
     } catch (error) {
       console.log('error', error);

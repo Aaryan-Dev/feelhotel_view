@@ -2,6 +2,7 @@ import React from 'react';
 import {View, Text, StyleSheet, TouchableOpacity} from 'react-native';
 import FontAwesome6 from '@react-native-vector-icons/fontawesome6';
 import {BackAction, CustomInput, CustomButton} from 'components/atoms';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 import {Formik} from 'formik';
 import * as Yup from 'yup';
 import {regex} from 'utils';
@@ -32,7 +33,6 @@ const SignIn: React.FC = ({navigation, backAction, signUpAction}) => {
     email: Yup.string()
       .required('Email is required')
       .matches(regex.basicEmailRegex, 'Email address must be valid'),
-    // password: Yup.string().required('Password is required'),
     password: Yup.string()
       .required('Please enter password')
       .matches(regex.password, 'Password is invalid'),
@@ -49,6 +49,7 @@ const SignIn: React.FC = ({navigation, backAction, signUpAction}) => {
         variables: {email: values?.email, password: values?.password},
       });
       if (res?.data) {
+        await AsyncStorage.setItem('userToken', res?.data?.signIn?.token);
         navigation.navigate('Home');
       }
     } catch (error) {

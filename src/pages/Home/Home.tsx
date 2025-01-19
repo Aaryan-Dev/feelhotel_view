@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, {useState, useEffect} from 'react';
 import {
   Text,
   View,
@@ -17,7 +17,11 @@ import {
   gql,
   useMutation,
 } from '@apollo/client';
+import Toast from 'react-native-simple-toast';
+import {jwtDecode} from 'jwt-decode';
+import {useNavigation} from '@react-navigation/native';
 import DatePicker from 'react-native-date-picker';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 export const GET_HOTELS = gql`
   query {
@@ -49,8 +53,9 @@ const BOOK_HOTEL = gql`
   }
 `;
 
-const Home = () => {
+const Home: React.FC = () => {
   const {loading, error, data} = useQuery(GET_HOTELS);
+  const navigation = useNavigation();
   const [
     bookHotel,
     {
@@ -61,28 +66,58 @@ const Home = () => {
   ] = useMutation(BOOK_HOTEL);
   const [date, setDate] = useState(new Date());
 
-  const handleBook = hotelId => {
+  const getToken = async () => {
+    try {
+      const token = await AsyncStorage.getItem('userToken');
+      if (token !== null) {
+        return jwtDecode(token);
+      }
+    } catch (error) {
+      console.error('Failed to retrieve token:', error);
+    }
+  };
+
+  const handleBook = async hotelId => {
+    const userdData = await getToken();
+    console.log('userEmail', userdData);
     bookHotel({
       variables: {
         hotel_id: parseInt(hotelId),
-        email: 'user@example.com',
+        email: userdData?.email,
         booking_date: date,
       },
     })
       .then(response => {
         console.log('Booking Successful:', response.data);
+        Toast.showWithGravity('Booking Successful', Toast.SHORT, Toast.BOTTOM, {
+          backgroundColor: 'green',
+        });
       })
       .catch(err => {
-        console.error('Booking Failed:', err.message);
+        Toast.showWithGravity(err?.message, Toast.SHORT, Toast.BOTTOM, {
+          backgroundColor: '#A70D2A',
+        });
       });
   };
 
   const handleBookingHistory = () => {};
 
-  const handleLogout = () => {};
+  const handleLogout = async () => {
+    try {
+      await AsyncStorage.removeItem('userToken');
+      console.log('Token removed successfully!');
+      navigation.navigate('Login');
+    } catch (error) {
+      console.error('Failed to remove token:', error);
+    }
+  };
 
   if (loading) return <Text>Loading...</Text>;
   if (error) return <Text>Error: {error.message}</Text>;
+
+  // useEffect(() => {
+  //   getToken();
+  // }, []);
 
   return (
     <SafeAreaView>
