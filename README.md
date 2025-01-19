@@ -1,8 +1,30 @@
+## Project Structure
+
+The project follows a standard React Native structure:
+
+- **`__tests__/`**: Contains test files for components and functionalities.
+- **`android/`**: Android-specific code and configurations.
+- **`ios/`**: iOS-specific code and configurations.
+- **`src/`**: Contains the main application source code.
+  - **`assets/`**: Contains Images.
+  - **`components/`**: Reusable React components.
+  - **`Hooks/`**: Has CustomHooks.
+  - **`Pages/`**: Comprises of Screens.
+  - **`utils/`**: Contains mostly regex.
+
+## Functionality
+
+The FeelHotel View application provides the following functionalities:
+
+- **User Authentication**: Users can sign up and log in to access personalized features.
+- **Hotel Listings**: Browse and search for hotels with detailed information.
+- **Booking Management**: Users can book hotels and view their booking history.
+
 This is a new [**React Native**](https://reactnative.dev) project, bootstrapped using [`@react-native-community/cli`](https://github.com/react-native-community/cli).
 
 # Getting Started
 
->**Note**: Make sure you have completed the [React Native - Environment Setup](https://reactnative.dev/docs/environment-setup) instructions till "Creating a new application" step, before proceeding.
+> **Note**: Make sure you have completed the [React Native - Environment Setup](https://reactnative.dev/docs/environment-setup) instructions till "Creating a new application" step, before proceeding.
 
 ## Step 1: Start the Metro Server
 
@@ -33,6 +55,9 @@ yarn android
 ```
 
 ### For iOS
+
+cd ios
+pod install
 
 ```bash
 # using npm
