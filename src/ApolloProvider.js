@@ -6,7 +6,7 @@ import {
 } from '@apollo/client';
 
 const client = new ApolloClient({
-  uri: 'http://localhost:4000/graphql', // Replace with your server's URL
+  uri: 'https://feelhotel-controller.onrender.com/graphql',
   cache: new InMemoryCache(),
 });
 
