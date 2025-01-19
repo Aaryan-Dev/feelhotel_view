@@ -1,0 +1,36 @@
+version: '3.9'
+
+services:
+  app:
+    image: node:18
+    container_name: feelhotel_app
+    working_dir: /usr/src/app
+    volumes:
+      - .:/usr/src/app
+      - /usr/src/app/node_modules
+    ports:
+      - "8081:8081" # Port for Metro bundler
+    command: sh -c "yarn install && yarn start"
+    environment:
+      - NODE_ENV=development
+    depends_on:
+      - db
+
+  db:
+    image: postgres:15
+    container_name: feelhotel_db
+    environment:
+      POSTGRES_USER: admin
+      POSTGRES_PASSWORD: password
+      POSTGRES_DB: feelhotel
+    ports:
+      - "5432:5432"
+
+  test:
+    image: node:18
+    container_name: feelhotel_test
+    working_dir: /usr/src/app
+    volumes:
+      - .:/usr/src/app
+      - /usr/src/app/node_modules
+    command: sh -c "yarn install && yarn test"
