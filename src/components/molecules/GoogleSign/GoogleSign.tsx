@@ -32,7 +32,7 @@ export default function GoogleSign() {
     setLoading(true);
     try {
       const response = await GoogleLogin();
-      const {idToken, scopes} = response?.data;
+      // const {idToken, scopes} = response?.data;
       setUserInfo(response?.data);
       await AsyncStorage.setItem('userEmail', response?.data?.user?.email);
       navigation.navigate('Home');
