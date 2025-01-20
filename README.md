@@ -50,8 +50,9 @@ Let Metro Bundler run in its _own_ terminal. Open a _new_ terminal from the _roo
 
 ### Only For iOS
 
-cd ios
-pod install
+- cd ios
+- pod install
+- cd ..
 
 ```bash
 # using npm
