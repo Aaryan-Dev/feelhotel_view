@@ -4,7 +4,6 @@
 
 The project follows a standard React Native structure:
 
-- **`__tests__/`**: Contains test files for components and functionalities.
 - **`android/`**: Android-specific code and configurations.
 - **`ios/`**: iOS-specific code and configurations.
 - **`src/`**: Contains the main application source code.
